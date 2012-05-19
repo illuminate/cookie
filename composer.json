@@ -1,0 +1,17 @@
+{
+    "name": "illuminate/cookie",
+    "description": "A cookie creation utility.",
+    "authors": [
+        {
+            "name": "Taylor Otwell",
+            "email": "taylorotwell@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "symfony/http-foundation": "2.0.*"
+    },
+    "autoload": {
+        "classmap": ["src/"]
+    }
+}
