@@ -1,8 +1,8 @@
 <?php namespace Illuminate;
 
-use Symfony\Component\HttpFoundation\Cookie as C;
+use Symfony\Component\HttpFoundation\Cookie;
 
-class Cookie {
+class CookieCreator {
 
 	/**
 	 * The default cookie options.
@@ -46,7 +46,7 @@ class Cookie {
 			$time = time() + ($minutes * 60);
 		}
 
-		return new C($name, $value, $time, $path, $domain, $secure, $httpOnly);
+		return new Cookie($name, $value, $time, $path, $domain, $secure, $httpOnly);
 	}
 
 }
