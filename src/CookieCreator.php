@@ -49,4 +49,16 @@ class CookieCreator {
 		return new Cookie($name, $value, $time, $path, $domain, $secure, $httpOnly);
 	}
 
+	/**
+	 * Create a cookie that lasts "forever" (five years).
+	 *
+	 * @param  string  $name
+	 * @param  string  $value
+	 * @return Symfony\Component\HttpFoundation\Cookie
+	 */
+	public function forever($name, $value)
+	{
+		return $this->make($name, $value, 2628000);
+	}
+
 }
