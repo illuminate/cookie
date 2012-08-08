@@ -5,6 +5,13 @@ use Symfony\Component\HttpFoundation\Cookie;
 class CookieCreator {
 
 	/**
+	 * The cookies that have been created.
+	 *
+	 * @var array
+	 */
+	protected $cookies = array();
+
+	/**
 	 * The default cookie options.
 	 *
 	 * @var array
@@ -46,7 +53,7 @@ class CookieCreator {
 			$time = time() + ($minutes * 60);
 		}
 
-		return new Cookie($name, $value, $time, $path, $domain, $secure, $httpOnly);
+		return $this->cookies[] = new Cookie($name, $value, $time, $path, $domain, $secure, $httpOnly);
 	}
 
 	/**
@@ -59,6 +66,27 @@ class CookieCreator {
 	public function forever($name, $value)
 	{
 		return $this->make($name, $value, 2628000);
+	}
+
+	/**
+	 * Expire the given cookie.
+	 *
+	 * @param  string  $name
+	 * @return Symfony\Component\HttpFoundation\Cookie
+	 */
+	public function forget($name)
+	{
+		return $this->make($name, null, -2628000);
+	}
+
+	/**
+	 * Get all of the cookies that have been created.
+	 *
+	 * @return array
+	 */
+	public function getCookies()
+	{
+		return $this->cookies;
 	}
 
 }
