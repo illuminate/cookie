@@ -159,7 +159,7 @@ class CookieJar {
 	 * @param  string       $value
 	 * @return string|null
 	 */
-	protected function parse($value)
+	public function parse($value)
 	{
 		$segments = explode('+', $value);
 
