@@ -29,13 +29,6 @@ class CookieJar {
 	protected $defaults = array();
 
 	/**
-	 * The cookies queued by the creator.
-	 *
-	 * @var array
-	 */
-	protected $queued = array();
-
-	/**
 	 * Create a new cookie manager instance.
 	 *
 	 * @param  Symfony\Component\HttpFoundation\Request  $request
@@ -78,21 +71,6 @@ class CookieJar {
 		}
 
 		return $value;
-	}
-
-	/**
-	 * Put a new cookie in the queue.
-	 *
-	 * @param  string  $name
-	 * @param  string  $value
-	 * @param  int     $minutes
-	 * @return Symfony\Component\HttpFoundation\Cookie
-	 */
-	public function put($name, $value, $minutes = 0)
-	{
-		$this->queued[] = $cookie = $this->make($name, $value, $minutes);
-
-		return $cookie;
 	}
 
 	/**
@@ -182,20 +160,6 @@ class CookieJar {
 		}
 
 		return $value;
-	}
-
-	/**
-	 * Set all of the queued cookies on a Response instance.
-	 *
-	 * @param  Symfony\Component\HttpFoundation\Response  $response
-	 * @return void
-	 */
-	public function moveQueued(Response $response)
-	{
-		foreach ($this->queued as $cookie)
-		{
-			$response->headers->setCookie($cookie);
-		}
 	}
 
 	/**
