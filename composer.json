@@ -9,6 +9,7 @@
     ],
     "require": {
         "php": ">=5.3.0",
+        "illuminate/encryption": ">=1.0.0",
         "illuminate/support": ">=1.0.0",
         "symfony/http-foundation": "2.1.0"
     },
@@ -17,5 +18,6 @@
     },
     "autoload": {
         "classmap": ["src/"]
-    }
+    },
+    "minimum-stability": "dev"
 }

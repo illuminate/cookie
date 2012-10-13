@@ -1,7 +1,9 @@
 <?php
 
 use Mockery as m;
+use phpSec\Crypt\Crypto;
 use Illuminate\CookieJar;
+use Illuminate\Encrypter;
 use Symfony\Component\HttpFoundation\Request;
 
 class CookieTest extends PHPUnit_Framework_TestCase {
@@ -16,14 +18,16 @@ class CookieTest extends PHPUnit_Framework_TestCase {
 	{
 		$cookie = $this->getCreator();
 		$c = $cookie->make('color', 'blue', 10);
-		$this->assertEquals($cookie->hash('blue').'+blue', $c->getValue());
+		$value = $cookie->getEncrypter()->decrypt($c->getValue());
+		$this->assertEquals('blue', $value);
 		$this->assertFalse($c->isHttpOnly());
 		$this->assertTrue($c->isSecure());
 		$this->assertEquals('/domain', $c->getDomain());
 		$this->assertEquals('/path', $c->getPath());
 
 		$c2 = $cookie->forever('color', 'blue');
-		$this->assertEquals($cookie->hash('blue').'+blue', $c->getValue());
+		$value = $cookie->getEncrypter()->decrypt($c->getValue());
+		$this->assertEquals('blue', $value);
 		$this->assertFalse($c->isHttpOnly());
 		$this->assertTrue($c->isSecure());
 		$this->assertEquals('/domain', $c->getDomain());
@@ -34,22 +38,21 @@ class CookieTest extends PHPUnit_Framework_TestCase {
 	public function testCookiesAreProperlyParsed()
 	{
 		$cookie = $this->getCreator();
-		$cookie->getRequest()->cookies->set('foo', $cookie->hash('bar').'+bar');
+		$value = $cookie->getEncrypter()->encrypt('bar');
+		$cookie->getRequest()->cookies->set('foo', $value);
 		$this->assertEquals('bar', $cookie->get('foo'));
 
 		$cookie = $this->getCreator();
-		$cookie->getRequest()->cookies->set('foo', $cookie->hash('bar').'bar');
-		$this->assertNull($cookie->get('foo'));
-
-		$cookie = $this->getCreator();
-		$cookie->getRequest()->cookies->set('foo', $cookie->hash('bar').'291+bar');
+		$value = $cookie->getEncrypter()->encrypt('bar');
+		$value .= '111';
+		$cookie->getRequest()->cookies->set('foo', $value);
 		$this->assertNull($cookie->get('foo'));
 	}
 
 
 	public function getCreator()
 	{
-		return new CookieJar(Request::create('/foo', 'GET'), 'foo-bar', array(
+		return new CookieJar(Request::create('/foo', 'GET'), new Encrypter(str_repeat('a', 16)), array(
 			'path'     => '/path',
 			'domain'   => '/domain',
 			'secure'   => true,
