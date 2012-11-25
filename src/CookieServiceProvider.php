@@ -7,17 +7,16 @@ class CookieServiceProvider extends ServiceProvider {
 	/**
 	 * Register the service provider.
 	 *
-	 * @param  Illuminate\Foundation\Application  $app
 	 * @return void
 	 */
-	public function register($app)
+	public function register()
 	{
-		$app['cookie.defaults'] = $this->cookieDefaults();
+		$this->app['cookie.defaults'] = $this->cookieDefaults();
 
 		// The Illuminate cookie creator is just a convenient way to make cookies
 		// that share a given set of options. Typically cookies created by the
 		// application will have the same settings so this just DRY's it up.
-		$app['cookie'] = $app->share(function($app)
+		$this->app['cookie'] = $this->app->share(function($app)
 		{
 			$options = $app['cookie.defaults'];
 
@@ -32,7 +31,9 @@ class CookieServiceProvider extends ServiceProvider {
 	 */
 	protected function cookieDefaults()
 	{
-		return array('path' => '/', 'domain' => null, 'secure' => false, 'httpOnly' => true);
+		return array(
+			'path' => '/', 'domain' => null, 'secure' => false, 'httpOnly' => true,
+		);
 	}
 
 }
