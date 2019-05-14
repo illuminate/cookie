@@ -1,24 +1,16 @@
 {
-    "name": "illuminate/cookie",
-    "description": "The Illuminate Cookie package.",
+    "name": "sddbrandcare/cookie",
+    "description": "The Custom Illuminate Cookie package.",
     "license": "MIT",
     "homepage": "https://laravel.com",
     "support": {
         "issues": "https://github.com/laravel/framework/issues",
         "source": "https://github.com/laravel/framework"
     },
-    "authors": [
-        {
-            "name": "Taylor Otwell",
-            "email": "taylor@laravel.com"
-        }
-    ],
     "require": {
-        "php": ">=7.0",
-        "illuminate/contracts": "5.5.*",
-        "illuminate/support": "5.5.*",
-        "symfony/http-foundation": "~3.3",
-        "symfony/http-kernel": "~3.3"
+        "php": ">=7.1",
+        "illuminate/contracts": "5.2.*",
+        "illuminate/support": "5.2.*"
     },
     "autoload": {
         "psr-4": {

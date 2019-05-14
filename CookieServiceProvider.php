@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Cookie;
+namespace SddBrandCare\Cookie;
 
 use Illuminate\Support\ServiceProvider;
 

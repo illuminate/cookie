@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Cookie\Middleware;
+namespace SddBrandCare\Cookie\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Cookie\QueueingFactory as CookieJar;
