@@ -51,15 +51,15 @@ class CookieJar implements JarContract
      * @param  int          $minutes
      * @param  string       $path
      * @param  string       $domain
-     * @param  bool         $secure
+     * @param  bool|null    $secure
      * @param  bool         $httpOnly
      * @param  bool         $raw
      * @param  string|null  $sameSite
      * @return Cookie
      */
-    public function make($name, $value, $minutes = 0, $path = null, $domain = null, $secure = false, $httpOnly = true, $raw = false, $sameSite = null)
+    public function make($name, $value, $minutes = 0, $path = null, $domain = null, $secure = null, $httpOnly = true, $raw = false, $sameSite = null)
     {
-        list($path, $domain, $secure, $sameSite) = $this->getPathAndDomain($path, $domain, $secure, $sameSite);
+        [$path, $domain, $secure, $sameSite] = $this->getPathAndDomain($path, $domain, $secure, $sameSite);
 
         $time = ($minutes == 0) ? 0 : $this->availableAt($minutes * 60);
 
@@ -73,13 +73,13 @@ class CookieJar implements JarContract
      * @param  string       $value
      * @param  string       $path
      * @param  string       $domain
-     * @param  bool         $secure
+     * @param  bool|null    $secure
      * @param  bool         $httpOnly
      * @param  bool         $raw
      * @param  string|null  $sameSite
      * @return Cookie
      */
-    public function forever($name, $value, $path = null, $domain = null, $secure = false, $httpOnly = true, $raw = false, $sameSite = null)
+    public function forever($name, $value, $path = null, $domain = null, $secure = null, $httpOnly = true, $raw = false, $sameSite = null)
     {
         return $this->make($name, $value, 2628000, $path, $domain, $secure, $httpOnly, $raw, $sameSite);
     }
@@ -150,15 +150,15 @@ class CookieJar implements JarContract
     /**
      * Get the path and domain, or the default values.
      *
-     * @param  string  $path
-     * @param  string  $domain
-     * @param  bool    $secure
-     * @param  string  $sameSite
+     * @param  string    $path
+     * @param  string    $domain
+     * @param  bool|null $secure
+     * @param  string    $sameSite
      * @return array
      */
-    protected function getPathAndDomain($path, $domain, $secure = false, $sameSite = null)
+    protected function getPathAndDomain($path, $domain, $secure = null, $sameSite = null)
     {
-        return [$path ?: $this->path, $domain ?: $this->domain, $secure ?: $this->secure, $sameSite ?: $this->sameSite];
+        return [$path ?: $this->path, $domain ?: $this->domain, is_bool($secure) ? $secure : $this->secure, $sameSite ?: $this->sameSite];
     }
 
     /**
@@ -172,7 +172,7 @@ class CookieJar implements JarContract
      */
     public function setDefaultPathAndDomain($path, $domain, $secure = false, $sameSite = null)
     {
-        list($this->path, $this->domain, $this->secure, $this->sameSite) = [$path, $domain, $secure, $sameSite];
+        [$this->path, $this->domain, $this->secure, $this->sameSite] = [$path, $domain, $secure, $sameSite];
 
         return $this;
     }
