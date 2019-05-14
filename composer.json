@@ -14,12 +14,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Illuminate\\Cookie\\": ""
-        }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "5.5-dev"
+            "SddBrandCare\\Cookie\\": ""
         }
     },
     "config": {
